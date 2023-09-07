@@ -3,7 +3,7 @@ Tugas 2 PBP Ganjil 23/24
 
 Checklist untuk tugas ini adalah sebagai berikut.
 
-- [ ] Membuat sebuah proyek Django baru.
+- [X] Membuat sebuah proyek Django baru.
 - [ ] Membuat aplikasi dengan nama main pada proyek tersebut.
 - [ ] Melakukan routing pada proyek agar dapat menjalankan aplikasi main.
 - [ ] Membuat model pada aplikasi main dengan nama Item dan memiliki atribut wajib sebagai berikut.
