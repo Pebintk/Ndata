@@ -36,7 +36,7 @@ Tautan menuju link adaptable yang telah di deploy [Ndata](https://ndata.adaptabl
 **Melakukan routing pada proyek agar dapat menjalankan aplikasi main.**
 1. Membuat file ```urls.py``` pada direktori ```main``` 
 2. menambahkan kode ini pada ```urls.py```
-<img src="Ndata/assets/urls di main.png" alt="Isi urls.py di main" title="Isi urls.py di main">
+<img src="Ndata/assets/urls di main.jpeg" alt="Isi urls.py di main" title="Isi urls.py di main">
 
 * Buatlah bagan yang berisi request client ke web aplikasi berbasis Django beserta responnya dan jelaskan pada bagan tersebut kaitan antara urls.py, views.py, models.py, dan berkas html.
 * Jelaskan mengapa kita menggunakan virtual environment? Apakah kita tetap dapat membuat aplikasi web berbasis Django tanpa menggunakan virtual environment?
