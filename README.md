@@ -41,8 +41,7 @@ Tautan menuju link adaptable yang telah di deploy [Ndata](https://ndata.adaptabl
 **Membuat model pada aplikasi main dengan nama Item dan atribut.**
 1. Buka file ```models.py``` pada ```main```
 2. Import ```from django.db import models```
-3. lalu tambahkan 
-<img src="assets/IsiModels.py.jpeg" alt="Isi Modeks.py di main" title="Isi Models.py di main">
+3. lalu tambahkan <img src="assets/IsiModels.py.jpeg" alt="Isi Modeks.py di main" title="Isi Models.py di main">
 4. lakukan migrasi model dengan ```python manage.py make migrations```, setelahnya lakukan ```python manage.py migrate```
 
 **Membuat sebuah fungsi pada views.py untuk dikembalikan ke dalam sebuah template HTML**
