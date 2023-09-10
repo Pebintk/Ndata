@@ -47,8 +47,7 @@ Tautan menuju link adaptable yang telah di deploy [Ndata](https://ndata.adaptabl
 **Membuat sebuah fungsi pada views.py untuk dikembalikan ke dalam sebuah template HTML**
 1. Buka file ```views.py``` pada ```main```
 2. Import ```from django.shortcuts import render```
-3. Lalu tambahkan 
-<img src="assets/DataViews.py.jpeg" alt="Data pada views.py" title="Data pada views.py">
+3. Lalu tambahkan <img src="assets/DataViews.py.jpeg" alt="Data pada views.py" title="Data pada views.py">
 
 **Melakukan routing pada urls.py di folder utama proyek.**
 1. Membuka file ```urls.py``` pada direktori ```Ndata``` 
@@ -56,7 +55,13 @@ Tautan menuju link adaptable yang telah di deploy [Ndata](https://ndata.adaptabl
 3. pada ```urlspatterns``` menambahkan ```path('main/',include('main.urls')),```.
 
 **Melakukan deployment ke Adaptable**
-1.
+1. Login adaptable.io menggunakan github, lalu pilih "New App" dan "Connect an Existing Repository" kemudia pilih "All Repository".
+2. Pilih repository Ndata, lalu gunakan branch main untuk *deployment*
+3. Gunakan template "Python App Template"  dan "PostgreSQL" sebagai basis datanya
+4. Sesuaikan Versi python (gunakan python --version di cmd untuk mengcek versi yang digunakan)
+5. Mengisi start command dengan ```python manage.py migrate && gunicorn Ndata.wsgi```.
+7. Tentukan nama aplikasi yang akan menjadi domain *website*
+8. Centang "HTTP Listener on PORT" dan klik "Deploy App" untuk memulai proses deploy aplikasi
 
 * Buatlah bagan yang berisi request client ke web aplikasi berbasis Django beserta responnya dan jelaskan pada bagan tersebut kaitan antara urls.py, views.py, models.py, dan berkas html.
 * Jelaskan mengapa kita menggunakan virtual environment? Apakah kita tetap dapat membuat aplikasi web berbasis Django tanpa menggunakan virtual environment?
