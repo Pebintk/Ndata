@@ -33,21 +33,31 @@ Tautan menuju link adaptable yang telah di deploy [Ndata](https://ndata.adaptabl
 2. jalankan ```python manage.py startapp main``` untuk membuat folder baru bernama ```main```
 3. pada ```settings.py```, menambahkan ```main``` pada ```INSTALLED APPS```
 
-**Melakukan routing pada proyek agar dapat menjalankan aplikasi main.**
+**Melakukan routing pada urls.py di main.**
 1. Membuat file ```urls.py``` pada direktori ```main``` 
 2. menambahkan kode ini pada ```urls.py```
 <img src="assets/urls di main.jpeg" alt="Isi urls.py di main" title="Isi urls.py di main">
 
-**Membuat model pada aplikasi main dengan nama Item dan memiliki atribut wajib sebagai berikut.**
+**Membuat model pada aplikasi main dengan nama Item dan atribut.**
 1. Buka file ```models.py``` pada ```main```
 2. Import ```from django.db import models```
-3. lalu tambahkan ```class Product(models.Model):
-    name = models.CharField(max_length=250)
-    date_added = models.DateField(auto_now_add=True)
-    price = models.IntegerField()
-    description = models.TextField()
-    amount = models.IntegerField()```
+3. lalu tambahkan 
+<img src="assets/IsiModels.py.jpeg" alt="Isi Modeks.py di main" title="Isi Models.py di main">
+4. lakukan migrasi model dengan ```python manage.py make migrations```, setelahnya lakukan ```python manage.py migrate```
 
+**Membuat sebuah fungsi pada views.py untuk dikembalikan ke dalam sebuah template HTML**
+1. Buka file ```views.py``` pada ```main```
+2. Import ```from django.shortcuts import render```
+3. Lalu tambahkan 
+<img src="assets/DataViews.py.jpeg" alt="Data pada views.py" title="Data pada views.py">
+
+**Melakukan routing pada urls.py di folder utama proyek.**
+1. Membuka file ```urls.py``` pada direktori ```Ndata``` 
+2. Menambahkan import ```include ``` dari ```django.urls```
+3. pada ```urlspatterns``` menambahkan ```path('main/',include('main.urls')),```.
+
+**Melakukan deployment ke Adaptable**
+1.
 
 * Buatlah bagan yang berisi request client ke web aplikasi berbasis Django beserta responnya dan jelaskan pada bagan tersebut kaitan antara urls.py, views.py, models.py, dan berkas html.
 * Jelaskan mengapa kita menggunakan virtual environment? Apakah kita tetap dapat membuat aplikasi web berbasis Django tanpa menggunakan virtual environment?
