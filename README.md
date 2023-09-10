@@ -38,6 +38,17 @@ Tautan menuju link adaptable yang telah di deploy [Ndata](https://ndata.adaptabl
 2. menambahkan kode ini pada ```urls.py```
 <img src="assets/urls di main.jpeg" alt="Isi urls.py di main" title="Isi urls.py di main">
 
+**Membuat model pada aplikasi main dengan nama Item dan memiliki atribut wajib sebagai berikut.**
+1. Buka file ```models.py``` pada ```main```
+2. Import ```from django.db import models```
+3. lalu tambahkan ```class Product(models.Model):
+    name = models.CharField(max_length=250)
+    date_added = models.DateField(auto_now_add=True)
+    price = models.IntegerField()
+    description = models.TextField()
+    amount = models.IntegerField()```
+
+
 * Buatlah bagan yang berisi request client ke web aplikasi berbasis Django beserta responnya dan jelaskan pada bagan tersebut kaitan antara urls.py, views.py, models.py, dan berkas html.
 * Jelaskan mengapa kita menggunakan virtual environment? Apakah kita tetap dapat membuat aplikasi web berbasis Django tanpa menggunakan virtual environment?
 * Jelaskan apakah itu MVC, MVT, MVVM dan perbedaan dari ketiganya.
