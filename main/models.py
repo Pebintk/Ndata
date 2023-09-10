@@ -7,3 +7,4 @@ class Product(models.Model):
     date_added = models.DateField(auto_now_add=True)
     price = models.IntegerField()
     description = models.TextField()
+    amount = models.IntegerField()
