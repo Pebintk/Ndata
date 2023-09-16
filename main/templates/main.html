@@ -1,11 +1,7 @@
 <!DOCTYPE HTML>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+{% extends 'base.html' %}
+{% block meta %}
     <title>Ndata</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="">
     <style>
         *{
             font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -34,16 +30,46 @@
             box-shadow: rgb;
         }
     </style>
-</head>
-<body>
+{% endblock meta %}
+{% block content %}
+
     <nav class = wrap>
         <div class = brand>{{ app }}</div>
-
-        </div>
-</nav>
+    </nav>
+    
     <h2>Name :</h2>
     <p>{{ name }} - {{ npm }}</p>
+    
     <h2>Class : </h2>
     <p>{{ class }} </p>
 
-</body>
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>Date Added</th>
+        </tr>
+    
+        {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
+    
+        {% for product in products %}
+            <tr>
+                <td>{{product.name}}</td>
+                <td>{{product.price}}</td>
+                <td>{{product.description}}</td>
+                <td>{{product.date_added}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    
+    <br />
+    
+    <a href="{% url 'create_product' %}">
+        <button>
+            Add New Product
+        </button>
+    </a>
+
+{% endblock content %}
