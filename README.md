@@ -64,7 +64,7 @@ Tautan menuju link adaptable yang telah di deploy [Ndata](https://ndata.adaptabl
 8. Centang "HTTP Listener on PORT" dan klik "Deploy App" untuk memulai proses deploy aplikasi
 
 **Buatlah bagan yang berisi request client ke web aplikasi berbasis Django beserta responnya dan jelaskan pada bagan tersebut kaitan antara urls.py, views.py, models.py, dan berkas html.**
-<img src="assets/Bagan-Django.jpeg" alt="Bagan Django" title="Bagan Django">
+<img src="assets/Bagan-django.jpeg" alt="Bagan Django" title="Bagan Django">
 Di web app yang berbasi Django, saat client mengirimkan permintaan HTTP, Django akan menggunakan ```urls.py``` untuk mencari dan menentukan views yang sesuai. pada ```views.py``` akan mengatur logika app, termasuk bagaimana app berinteraksi dengan model yang ada pada ```models.py``` untuk mengakses dan menggunakan data pada database. Data yang diperlukan akan dikumpulkan pada views, dan hasilnya akan dirender pada file HTML. file HTML akan mengandung kode HTML dan juga tag template Django untuk memasukkan data yang berasal dari views. setelah proses tersebut selesai, webpage tadi akan dikirim sebagai respon ke client.
 ```urls.py``` = mengelola routing
 ```views.py``` = mengatur logika
