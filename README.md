@@ -108,20 +108,20 @@ MVVM sering digunakan dalam pengembangan aplikasi yang berbasis *User Interface*
 
 # Tugas 3 PBP Ganjil 23/24
 
- - [x]Membuat input form untuk menambahkan objek model pada app sebelumnya.
- - [x]Tambahkan 5 fungsi views untuk melihat objek yang sudah ditambahkan dalam format HTML, XML, JSON, XML by ID, dan JSON by ID.
- - [x]Membuat routing URL untuk masing-masing views yang telah ditambahkan pada poin 2.
- - [X]Menjawab beberapa pertanyaan berikut pada README.md pada root folder.
+ - [x] Membuat input form untuk menambahkan objek model pada app sebelumnya.
+ - [x] Tambahkan 5 fungsi views untuk melihat objek yang sudah ditambahkan dalam format HTML, XML, JSON, XML by ID, dan JSON by ID.
+ - [x] Membuat routing URL untuk masing-masing views yang telah ditambahkan pada poin 2.
+ - [X] Menjawab beberapa pertanyaan berikut pada README.md pada root folder.
 	* Apa perbedaan antara form POST dan form GET dalam Django?
 	* Apa perbedaan utama antara XML, JSON, dan HTML dalam konteks pengiriman data?
 	* Mengapa JSON sering digunakan dalam pertukaran data antara aplikasi web modern?
 	* Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
-- [] Mengakses kelima URL di poin 2 menggunakan Postman, membuat screenshot dari hasil akses URL pada Postman, dan menambahkannya ke dalam README.md.
-- [] Melakukan add-commit-push ke GitHub.
+- [x] Mengakses kelima URL di poin 2 menggunakan Postman, membuat screenshot dari hasil akses URL pada Postman, dan menambahkannya ke dalam README.md.
+- [x] Melakukan add-commit-push ke GitHub.
 
 ## **Membuat Input Form untuk menambahkan objek model pada app sebelumnya** 
 1. Membuat folder ```templates``` pada root folder, kemudian buat file html ```base.html``` dengan isi
-```
+```html
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -143,19 +143,18 @@ MVVM sering digunakan dalam pengembangan aplikasi yang berbasis *User Interface*
 ```
 
 2. Pada ```settings.py``` yang ada pada subdirektori ```Ndata```, pada variabel ```TEMPLATES``` lalu sesuakian kode pada bagian ```DIRS``` menjadi
-```
-...
+```py
 TEMPLATES = [
     {
         ...
-        'DIRS': [BASE_DIR / 'templates'], # Tambahkan kode ini
+        'DIRS': [BASE_DIR / 'templates'],
         ...
     }
 ]
 ```
 
 3. Pada ```main.html``` yang berada pada subdirektori ```templates``` yang berada di dalam direktori ```main```, tambahkan kode
-```
+```html
 {% extends 'base.html' %}
 {% block content %}
     ...
@@ -167,7 +166,7 @@ TEMPLATES = [
 4. Lalu nyalakan virtual environment dengan ```env\Scripts\activate.bat```
 
 5. Membuat file ```forms.py``` pada direktori ```main``` yang berisi struktur form yang dapat menerima data
-```
+```py
 from django.forms import ModelForm
 from main.models import Product
 
@@ -178,7 +177,7 @@ class ProductForm(ModelForm):
 ```
 
 6. Pada file ```views.py``` pada direktori ```main```, tambahkan beberapa input baru serta buat fungsi ```create_product``` agar data pada form bisa menambahkan data secara otomatis
-```
+```py
 from django.http import HttpResponseRedirect
 from main.forms import ProductForm, Product
 from django.urls import reverse
@@ -199,7 +198,7 @@ def create_product(request):
 
 ### **HTML**
 1. Pada file ```views.py``` ubah fungsi ```show_main``` menjadi 
-```
+```py
 def show_main(request):
     products = Product.objects.all()
 
@@ -214,7 +213,7 @@ def show_main(request):
     return render(request, "main.html", context)
 ```
 2. Buat file ```create_product.html``` pada folder ```templates``` yang berada di dalam direktori ```main```, fungsi dari file ini adalah menampilkan tampilan form untuk meminta input data
-```
+```html
 {% extends 'base.html' %} 
 
 {% block content %}
@@ -237,7 +236,7 @@ def show_main(request):
 ```
 
 3. Pada file ```urls.py``` yang berada di dalam direktori ```main``` tambahkan import ```create_product``` dan tambahkan path url di urlpattern
-```
+```py
 from main.views import show_main, create_product
 ...
 urlpatterns = [
@@ -247,7 +246,7 @@ urlpatterns = [
 ``` 
 
 4.  Pada ```main.html``` yang berada pada subdirektori ```templates``` yang berada di dalam direktori main, tambahkan kode di dalam ```{% block content %}``` agar bisa menampilkan isi barang yang sudah ditambahkan.
-```
+```html
 ...
 <table>
 	<tr>
@@ -279,7 +278,7 @@ urlpatterns = [
 ## **Membuat routing URL untuk masing-masing views yang telah ditambahkan pada poin 2.**
 ### **XML dan JSON**
 1. Buka file ```views.py``` pada direktori ```main```, lalu import ```HttpResponse``` dan ```Serializer```, lalu tambahkan fungsi ```show_xml``` dan ```show_json```
-```
+```py
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core import serializers
 ***
@@ -295,7 +294,7 @@ def show_json(request):
 
 ```
 2. Buka file ```urls.py``` pada direktori ```main```, import fungsi ```show_xml``` dan ```show_json``` dan tambahkan routing url ke urlpatterns
-```
+```py
 from main.views import show_main, create_product, show_json, show_xml,
 ...
 urlpatterns = [
@@ -306,7 +305,7 @@ urlpatterns = [
 ```
 ### **XML dan JSON by ID**
 1. Buka file ```views.py``` pada direktori ```main```, lalu tambahkan fungsi ```show_xml_by_id``` dan ```show_json_by_id```, kedua fungsi tersebut akan mengembalikan data hasil query dengan format JSOn ataupun XML
-```
+```py
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core import serializers
 ***
@@ -345,7 +344,7 @@ JSOn adalah format penukaran data yang dapat dibaca dengan mudah oleh manusia ma
 
 HTML adalah *markup language* yang dirancang khusus untuk membuat dan mengatur konten web yang dapat diakses melalui web browser. HTML biasanya tidak digunakan untuk pertukaran data struktural antara aplikasi, tetapi digunakan untuk membuat tampilan dan struktur halaman web dengan kemampuan untuk memasukkan data dalam atribut atau elemen tertentu dengan bantuan JavaScript. HTML berperan sebagai struktur dasar dari semua halaman web modern
 
-## **engapa JSON sering digunakan dalam pertukaran data antara aplikasi web modern?**
+## **Mengapa JSON sering digunakan dalam pertukaran data antara aplikasi web modern?**
 JSON memiliki format teks ringan dan fleksibilitas atas struktur datanya yang memudahkan pengembang dalam memahami. mengelola, dan merepresentasikan data yang kompleks. Dukungan dari berbagai macam bahasa pemrograman dan platform membuatnya serbaguna, terutama dalam interaksi antar layanan web dan API eksternal. JSON juga menawarkan fitur keamanan yang mengurangi risiko serangan injeksi kode. Dalam pengaplikasian *real-time*, JSON memungkinkan pembaruan data efisien antara klien dan server yang meningkatkan pengalaman pengguna.
 
 ## **Screenshot hasil aksek URL dengan menggunakan Postman**
