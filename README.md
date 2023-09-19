@@ -351,8 +351,8 @@ JSON memiliki format teks ringan dan fleksibilitas atas struktur datanya yang me
 ### **XML**
 ![alt text](assets/Postman%20XML.jpg)
 ### **XML by ID**
-![alt text](assets/Postman%20XML%20ByID.jpg)
+![alt text](assets/Postman%20XML%20by%20ID.jpg)
 ### **JSON**
 ![alt text](assets/Postman%20JSON.jpg)
 ### **JSON By Id**
-![alt text](assets/Postman%20JSON%20ById.jpg)
+![alt text](assets/Postman%20JSON%20by%20IDjpg.jpg)
