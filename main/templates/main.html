@@ -60,9 +60,11 @@
                 <td>{{product.price}}</td>
                 <td>{{product.description}}</td>
                 <td>{{product.date_added}}</td>
-            </tr>
+            </tr>   
         {% endfor %}
     </table>
+
+    <h3>Kamu menyimpan {{ total_products }} {% if total_products == 1 %}products{% else %}products{% endif %} pada aplikasi ini</h3>
     
     <br />
     

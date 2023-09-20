@@ -14,7 +14,8 @@ def show_main(request):
         'class': 'PBP E',
         "app" : "Ndata",
         'npm' : '2206083174',
-        'products' : products
+        'products' : products,
+        'total_products' : len(products)
     }
 
     return render(request, "main.html", context)

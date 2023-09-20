@@ -8,3 +8,4 @@ class Product(models.Model):
     price = models.IntegerField()
     amount = models.IntegerField(null=True)
     description = models.TextField()
+    
