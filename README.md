@@ -266,6 +266,8 @@ urlpatterns = [
 	{% endfor %}
 </table>
 
+<h3>Kamu menyimpan {{ total_products }} {% if total_products == 1 %}products{% else %}products{% endif %} pada aplikasi ini</h3>
+
 <br />
 
 <a href="{% url 'main:create_product' %}">
