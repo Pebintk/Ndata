@@ -69,9 +69,9 @@
     <h3>Kamu menyimpan {{ total_items }} {% if total_items == 1 %}jenis items{% else %}items{% endif %} pada aplikasi ini</h3>
     
     <br />
-    
-    <h5>Sesi terakhir login: {{ last_login }}</h5>
 
+    <h5>Sesi terakhir login: {{ last_login }}</h5>
+    
     <a href="{% url 'main:create_item' %}">
         <button>
             Add New Item
@@ -83,6 +83,6 @@
             Logout
         </button>
     </a>
-
     
+
 {% endblock content %}
