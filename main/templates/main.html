@@ -55,25 +55,34 @@
     
         {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
     
-        {% for product in products %}
+        {% for item in items %}
             <tr>
-                <td>{{product.name}}</td>
-                <td>{{product.price}}</td>
-                <td>{{product.description}}</td>
-                <td>{{product.amount}}</td>
-                <td>{{product.date_added}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.price}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.amount}}</td>
+                <td>{{item.date_added}}</td>
             </tr>   
         {% endfor %}
     </table>
 
-    <h3>Kamu menyimpan {{ total_products }} {% if total_products == 1 %}jenis products{% else %}products{% endif %} pada aplikasi ini</h3>
+    <h3>Kamu menyimpan {{ total_items }} {% if total_items == 1 %}jenis items{% else %}items{% endif %} pada aplikasi ini</h3>
     
     <br />
+
+    <h5>Sesi terakhir login: {{ last_login }}</h5>
     
-    <a href="{% url 'main:create_product' %}">
+    <a href="{% url 'main:create_item' %}">
         <button>
-            Add New Product
+            Add New Item
         </button>
     </a>
+
+    <a href="{% url 'main:logout' %}">
+        <button>
+            Logout
+        </button>
+    </a>
+    
 
 {% endblock content %}

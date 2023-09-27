@@ -358,3 +358,304 @@ JSON memiliki format teks ringan dan fleksibilitas atas struktur datanya yang me
 ![alt text](assets/Postman%20JSON.jpg)
 ### **JSON By Id**
 ![alt text](assets/Postman%20JSON%20by%20IDjpg.jpg)
+
+# Tugas 4 PBP Ganjil 23/24
+ - [x] Mengimplementasikan fungsi registrasi, login, dan logout untuk memungkinkan pengguna untuk mengakses aplikasi sebelumnya dengan lancar.
+ - [x] Membuat dua akun pengguna dengan masing-masing tiga dummy data menggunakan model yang telah dibuat pada aplikasi sebelumnya untuk setiap akun di lokal.
+ - [x] Menghubungkan model Item dengan User.
+ - [x] Menampilkan detail informasi pengguna yang sedang logged in seperti username dan menerapkan cookies seperti last login pada halaman utama aplikasi
+ - [X] Menjawab beberapa pertanyaan berikut pada README.md pada root folder (silakan modifikasi README.md yang telah kamu buat sebelumnya; tambahkan subjudul untuk setiap tugas).
+	* Apa itu Django UserCreationForm, dan jelaskan apa kelebihan dan kekurangannya?
+	* Apa perbedaan antara autentikasi dan otorisasi dalam konteks Django, dan mengapa keduanya penting?
+	* Apa itu cookies dalam konteks aplikasi web, dan bagaimana Django menggunakan cookies untuk mengelola data sesi pengguna?
+	* Apakah penggunaan cookies aman secara default dalam pengembangan web, atau apakah ada risiko potensial yang harus diwaspadai?
+    * Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+- [x] Melakukan add-commit-push ke GitHub.
+
+## **Fungsi Registrasi**
+1. Buka ```views.py``` dalam subdirektori ```main```. 
+2. Import modul :
+```python
+from django.shortcuts import redirect
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages  
+```
+3. Tambahkan fungsi register
+```python
+def register(request):
+    form = UserCreationForm()
+
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your account has been successfully created!')
+            return redirect('main:login')
+    context = {'form':form}
+    return render(request, 'register.html', context)
+
+```
+4. buat file baru pada folder ```templates``` pada subdirekotri ```main```, dengan nama ```register.html```, lalu isi file menjadi
+```html
+{% extends 'base.html' %}
+
+{% block meta %}
+    <title>Register</title>
+{% endblock meta %}
+
+{% block content %}  
+
+<div class = "login">
+    
+    <h1>Register</h1>  
+
+        <form method="POST" >  
+            {% csrf_token %}  
+            <table>  
+                {{ form.as_table }}  
+                <tr>  
+                    <td></td>
+                    <td><input type="submit" name="submit" value="Daftar"/></td>  
+                </tr>  
+            </table>  
+        </form>
+
+    {% if messages %}  
+        <ul>   
+            {% for message in messages %}  
+                <li>{{ message }}</li>  
+                {% endfor %}  
+        </ul>   
+    {% endif %}
+
+</div>  
+
+{% endblock content %}
+```
+5. Buka ```urls.py``` di subdirektori ```main```, import fungsi register tadi dan tambahkan path url pada ```urlpatterns```
+```python
+from main.views import register
+...
+path('register/', register, name='register'),
+...
+```
+
+## **Fungsi Login**
+1. Buka ```views.py``` dalam subdirektori ```main```. 
+2. Import modul :
+```python
+from django.contrib.auth import authenticate, login
+```
+3. Tambahkan fungsi login_user
+```python
+def login_user(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('main:show_main')
+        else:
+            messages.info(request, 'Sorry, incorrect username or password. Please try again.')
+    context = {}
+    return render(request, 'login.html', context)
+
+```
+4. buat file baru pada folder ```templates``` pada subdirekotri ```main```, dengan nama ```login.html```, lalu isi file menjadi
+```html
+{% extends 'base.html' %}
+
+{% block meta %}
+    <title>Login</title>
+{% endblock meta %}
+
+{% block content %}
+
+<div class = "login">
+
+    <h1>Login</h1>
+
+    <form method="POST" action="">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>Username: </td>
+                <td><input type="text" name="username" placeholder="Username" class="form-control"></td>
+            </tr>
+                    
+            <tr>
+                <td>Password: </td>
+                <td><input type="password" name="password" placeholder="Password" class="form-control"></td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td><input class="btn login_btn" type="submit" value="Login"></td>
+            </tr>
+        </table>
+    </form>
+
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}     
+        
+    Don't have an account yet? <a href="{% url 'main:register' %}">Register Now</a>
+
+</div>
+
+{% endblock content %}
+
+```
+5. Buka ```urls.py``` di subdirektori ```main```, import fungsi register tadi dan tambahkan path url pada ```urlpatterns```
+```python
+from main.views import login_user
+...
+path('login/', login_user, name='login'),
+...
+```
+
+## **Fungsi Logout**
+1. Buka ```views.py``` dalam subdirektori ```main```. 
+2. Import modul :
+```python
+from django.contrib.auth import logout
+```
+3. Tambahkan fungsi logout_user
+```python
+def logout_user(request):
+    logout(request)
+    return redirect('main:login')
+```
+4. pada file  ```main.html``` pada folder ```templates``` yang ada di subdirektori ```main```, lalu tambahkan
+```html
+...
+<a href="{% url 'main:logout' %}">
+    <button>
+        Logout
+    </button>
+</a>
+...
+```
+5. Buka ```urls.py``` di subdirektori ```main```, import fungsi register tadi dan tambahkan path url pada ```urlpatterns```
+```python
+from main.views import logout_user
+...
+path('logout/', logout_user, name='logout'),
+...
+```
+
+## **Menghubungkan model Item dengan User**
+1. Buka ```models.py``` dalam subdirektori ```main```. 
+2. Import modul :
+```python
+from django.contrib.auth.models import User
+```
+3. Tambahkan potongan kode berikut
+```python
+class Item(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+```
+4. pada file  ```views.py``` yang ada di subdirektori ```main```, ubah kode ```create_item``` menjadi
+```python
+...
+def create_item(request):
+    form = ItemForm(request.POST or None)
+
+    if form.is_valid() and request.method == "POST":
+        item = form.save(commit=False)
+        item.user = request.user
+        item.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+
+    context = {'form': form}
+    return render(request, "create_item.html", context)
+
+...
+```
+5. ubah fungsi ```show_main``` menjadi:
+```python
+from main.views import logout_user
+def show_main(request):
+    items = Item.objects.filter(user=request.user)
+
+    context = {
+        'name': request.user.username,
+    ...
+...
+```
+
+6. setelah itu make migrations pada model, jika muncul error saat migrasi model karena *non-nullable field* 'user', isi dengan '1' kemudian isi '1' lagi
+7. lakukan migrate
+
+## **Menambahkan Cookies Last_login**
+1. pastikan sudah logout dari aplikasi Django
+2. buka ```views.py``` pada subdirektori ```main```, dan import:
+```python
+import datetime
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+```
+3. pada fungsi ```login_user```, tambahkan kode menjadi:
+```python
+...
+if user is not None:
+    login(request, user)
+    response = HttpResponseRedirect(reverse("main:show_main"))
+    response.set_cookie('last_login', str(datetime.datetime.now()))
+    return response
+...
+``` 
+4. pada fungsi ```show_main``` tambahkan potongan kode berikut pada context
+```python
+'last_login' : request.COOKIES['last_login'],
+```
+5. ubah kode pada fungsi ```logout_user``` menjadi berikut:
+```python
+def logout_user(request):
+    logout(request)
+    response = HttpResponseRedirect(reverse('main:login'))
+    response.delete_cookie('last_login')
+    return response
+```
+6. pada berkas ```main.html``` pada tambahkan kode berikut:
+...html
+<h5>Sesi terakhir login: {{ last_login }}</h5>
+...
+
+## **Apa itu UserCreationForm serta kelebihan dan kekuranngan**
+```UserCreationForm``` adalah salah satu formulir yang disediakan pada Django untuk membuat formulir dan dapat menerima input untuk proses pendafataran pengguna seperti username, password, dan informasi tambahan lainnya.
+
+**- Kelebihan**
+1. Mudah digunakan, karena Django sudah menyediakan fungsi yang terdefinisi dengan baik yang memudahkan proses pengembangan web untuk mengimplementasi fitur pendaftaran user baru
+2. Validasi Otomatis, Form ini sudah mencakup validasi otomatis. Termasuk validasi alamat email dan kekuatan password
+3. Integrasi yang mudah, ini karena ```usercreationform``` sudah terhubung otomatis dengan model pengguna django, yang akan otomatis menyimpan data dalam tabel pengguna di database
+
+**- kekurangan**
+1. Masih terdapat celah keamanan. Meski sudah ada validasi bawaan, masih ada celah yang belum ditangani. Sehingga developer harus memastikan kembali app nya memiliki perlindungan yang kuat.
+2. Kustomisasi yang terbatas. Ini dikarenakan form ini hanya cocok untuk autentikasi sederhana, dan juga sifatnya yang tidak fleksibel membuat developer perlu membuat form sendiri untuk menangani kebutuhan yang lebih kompleks
+3. Fitur yang terbatas. jika ingin membuat form pendaftaran yang kompleks, maka akan membutuhkan fitur yang diinginkan secara manual, menambakan ekstensi, ataupun memodifikasi fitur yang ada.
+
+## **Perbedaan antara autentikasi dan otorisasi dalam konteks Django**
+**- Autentikasi** adalah proses verifikasi identitas pengguna. Ini untuk memastikan kebenaran informasi pengguna yang memasukkan kredensial selama proses login. Autentikasi berfungsi untuk memastikan hanya user yang valid dan sesuai dengan data yang terdaftar dengan sistem yang dapat mengakses aplikasi. Contohnya adalah proses memeriksa apakah data yang dimasukkan saat login sama dengan data yang terdaftar pada database.
+
+**- Otorisasi** adalah proses program menentukan hak akses dan izin yang dapat dilakukan oleh user yang berhasil proses melakukan autentikasi. Otorisasi berfungsi untuk melindungi informasi dalam aplikasi dari akses yang tidak valid. Contohnya adalah menentukan apakah user memiliki izin untuk melakukan suatu tindakan tertentu dalam aplikasi tersebut.
+
+## **Cookies dalam konteks aplikasi web dan penggunakan cookies untuk mengelola data sesi pengguna di aplikasi Django**
+**Cookies** adalah data yang disimpan di sisi klien browser saat pengguna mengunjungi sebuah situs web. Data tersebut menyimpan informasi yang diperlukan untuk mengetahui pengguna, menjaga status login, dan menyimpan preferensi pengguna
+
+Dalam Django, user yang berhasil login ke  akan menerima cookie session dari server. Cookie ini akan mengandung identifikasi unik yang digunakan oleh server untuk mengenali user tertentu. Ketika user pindah melakukan suatu kegiatan pada aplikasi, cookie ini akan disertakan dalam setiap request HTTP yang dikirimkan ke server. 
+
+**Cookies** adalah mekanisme utama dalam "holding state" yang menyimpan informasi session antara klien dan server dalam aplikasi Django
+
+## **Apakah penggunaan cookies aman secara default dalam pengembangan web, atau apakah ada risiko potensial yang harus diwaspadai?**
+Jika diimplementasikan dengan benar serta tetap mengikuti standar dan praktik keamanan yang tepat, maka tentu cookies aman untuk digunkan. Namun, tetap ada risiko potensial yang harus diwaspadai agar penggunaan cookies tidak mengancam keamanan dan juga user.
+1. Pelacakan melalui cookies. Cookies dapat digunakan untuk melacak aktivitas pengguna si seluruh situs web dan melintasi berbagai domain, data ini bisa digunakan untuk mengumpulkan data perilaku pengguna secara ilegal atau tanpa izin.
+2. Keamanan privasi user. Penggunaan cookies yang ditarget untuk pelacakan perilaku user, dapat memunculkan kekhawatiran akan privasi. User akan merasa tidak nyaman jika mereka mengetahui aktivitas online ataupun data pribadi mereka dapat dilacak.
+3. Regulasi. Penggunaan cookies harus memathui berbagai persyaratan yang berlaku sesuai dengan daerah digunakannya, termasuk tentang regulasi mengenai memberikan informasi yang jelas tentang apa saja yang cookies simpan dan memberikan opsi kepada user untuk menolaknya.
+
+Implementasi cookies adalah hal yang penting bagi developer dan pemilik situs web, harus mempertimbangkan dampak dari penggunaan cookies pada privasi dan juga hak-hak yang dimiliki oleh user serta mematuhi regulasi yang berlaku 
