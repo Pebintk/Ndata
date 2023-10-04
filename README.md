@@ -659,3 +659,610 @@ Jika diimplementasikan dengan benar serta tetap mengikuti standar dan praktik ke
 3. Regulasi. Penggunaan cookies harus memathui berbagai persyaratan yang berlaku sesuai dengan daerah digunakannya, termasuk tentang regulasi mengenai memberikan informasi yang jelas tentang apa saja yang cookies simpan dan memberikan opsi kepada user untuk menolaknya.
 
 Implementasi cookies adalah hal yang penting bagi developer dan pemilik situs web, harus mempertimbangkan dampak dari penggunaan cookies pada privasi dan juga hak-hak yang dimiliki oleh user serta mematuhi regulasi yang berlaku 
+
+##**Tugas 5 PBP GANJIL 23/24**
+
+ - [x] Kustomisasi desain pada templat HTML yang telah dibuat pada Tugas 4 dengan menggunakan CSS atau CSS framework (seperti Bootstrap, Tailwind, Bulma) dengan ketentuan sebagai berikut
+	* Kustomisasi halaman login, register, dan tambah inventori semenarik mungkin.
+	* Kustomisasi halaman daftar inventori menjadi lebih berwarna maupun menggunakan apporach lain seperti menggunakan Card.
+ 
+ - [X] Menjawab beberapa pertanyaan berikut pada README.md pada root folder (silakan modifikasi README.md yang telah kamu buat sebelumnya; tambahkan subjudul untuk setiap tugas).
+	* Jelaskan manfaat dari setiap element selector dan kapan waktu yang tepat untuk menggunakannya.
+	* Jelaskan HTML5 Tag yang kamu ketahui.
+	* Jelaskan perbedaan antara margin dan padding.
+	* Jelaskan perbedaan antara framework CSS Tailwind dan Bootstrap. Kapan sebaiknya kita menggunakan Bootstrap daripada Tailwind, dan sebaliknya?
+    * Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+- [x] Melakukan add-commit-push ke GitHub.
+
+
+##**Implementasi CSS**
+Pada tugas ini, saya menggunakan internal CSS untuk membantu mendesain halaman web. Saya gunakan selector untuk memisahkan dan mengelompokkan mana saja yang akan di *styling* dengan desain yang sama, setelahnya saya menggunakan block ```<style>``` dan styling *seelector* di dalamnya. 
+##**Login Page**
+```html
+{% extends 'base.html' %}
+    
+
+{% block content %}
+<!DOCTYPE HTML>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Login</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+    <style>
+        *{
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            background-color: rgba(250, 249, 249, 0.692);
+        }
+        .wrap {
+            display: flex;
+            justify-content: space-between;
+            font-size: 20px;
+            width: 100%;
+            height: 60px;
+            box-shadow: 0 7px 15px 0 rgba(10, 0, 0, 0.692);
+        }
+        .brand {
+            display: flex;
+            flex-direction: row;
+            font-size: 40px;
+            padding: 5px;
+            color: rgb(18, 135, 119);   
+        }
+        .login-container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        h1{
+            text-align: center;
+            padding: 10px 0 10px 0;
+            color: #02A8A8;
+        }
+
+        table, ul{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-login-btn{
+            text-align: center;
+            color: white;
+            background-color: #02A8A8;
+            padding: 5px;
+            margin: 10px 0 10px 35px;
+
+        }
+
+        .redirect-login{
+            text-align: center;
+        }
+        /* Existing styles for other elements... */
+
+    </style>
+</head>
+<body>
+    <nav class="wrap">
+        <div class="brand">{{ app }}</div>
+
+    </nav>
+
+    <div class="login-container">
+        <div class = "login">
+            <h1>Login</h1>
+            <form method="POST" action="">
+                {% csrf_token %}
+                <table>
+                    <tr>
+                        <td>Username: </td>
+                        <td><input type="text" name="username" placeholder="Username" class="form-control"></td>
+                    </tr>
+                            
+                    <tr>
+                        <td>Password: </td>
+                        <td><input type="password" name="password" placeholder="Password" class="form-control"></td>
+                    </tr>
+        
+                    <tr>
+                        <td></td>
+                        <td><input class="btn-login-btn" type="submit" value="Login"></td>
+                    </tr>
+                </table>
+            </form>
+        
+            {% if messages %}
+                <ul style="color: red;">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}     
+                
+            <p class="redirect-login">Don't have an account yet? <a href="{% url 'main:register' %}">Register Now</a></p>
+        
+        </div>
+    </div>
+    
+    
+    {% endblock content %}
+</body>
+
+```
+##**Register Page**
+```html
+{% extends 'base.html' %}
+
+{% block meta %}
+    <title>Register</title>
+{% endblock meta %}
+
+{% block content %}  
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>register</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+    <style> 
+        .wrap{
+            display: flex;
+            justify-content: space-between;
+            font-size: 20px;
+            width: 100%;
+            height: 60px;
+            box-shadow: 0 7px 15px 0 rgba(10, 0, 0, 0.692);
+        }
+        .brand{
+            display: flex;
+            flex-direction: row;
+            font-size: 40px;
+            padding: 5px;
+            color: rgb(18, 135, 119);   
+        }
+
+        h1{
+            text-align: center;
+            padding: 10px 0 10px 0;
+            color: #02A8A8;
+        }
+
+        form {
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid ;
+            border-radius: 5px;
+            background-color: #F5DEA3;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        td {
+            padding: 10px;
+        }
+
+        input[type="submit"] {
+            background-color: #02A8A8;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+
+    </style>
+</head>
+<body>
+<div class = "login">
+    <nav class = wrap>
+        <div class = brand>Ndata</div>
+        <div class="logout-button-container" > 
+
+        </div>
+    </nav>
+    <div class="register-container">
+        <h1>Register</h1>  
+
+        <form method="POST" >  
+            {% csrf_token %}  
+            <table>  
+                {{ form.as_table }}  
+                <tr>  
+                    <td></td>
+                    <td><input type="submit" name="submit" value="Daftar"/></td>  
+                </tr>  
+            </table>  
+        </form>
+
+    {% if messages %}  
+        <ul>   
+            {% for message in messages %}  
+                <li>{{ message }}</li>  
+                {% endfor %}  
+        </ul>   
+    {% endif %}
+
+    </div>
+    
+</div>  
+</body>
+{% endblock content %}
+```
+
+##**Main Page**
+```html
+{% extends 'base.html' %}
+
+
+{% block content %}
+<!DOCTYPE HTML>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ndata</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+    <style>
+        *{
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            background-color: rgba(250, 249, 249, 0.692);
+        }
+        .wrap{
+            display: flex;
+            justify-content: space-between;
+            font-size: 20px;
+            width: 100%;
+            height: 60px;
+            box-shadow: 0 7px 15px 0 rgba(10, 0, 0, 0.692);
+        }
+        .brand{
+            display: flex;
+            flex-direction: row;
+            font-size: 40px;
+            padding: 5px;
+            color: rgb(18, 135, 119);   
+        }
+        h2{
+            color:#02A8A8;
+            text-align: left;
+            font-size: 25px;
+            margin-top: 10px;
+            box-shadow: rgb;
+        }
+        h4{
+            text-align: center;
+            font-size: 20px;
+        }
+        h5{
+            color:#02A8A8;
+            text-align: center;
+            font-size: 15px;
+        }
+        .logout-button-container {
+            display: flex;
+            align-items: center; /* Center vertically within .logout-button-container */
+            margin-right: 5px;
+        }
+
+        .logout-button {
+            color: white;
+            background-color: #a50808;
+            text-align: center;
+            padding: 5px;
+            /* Add any other styles you want for the Logout button */
+        }
+
+        .logout-button:hover {
+            background-color: #870606; /* Change the background color on hover */
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            border: 1px solid #000;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+        }
+
+        tr:first-child {
+            background-color: #F5DEA3;
+        }
+
+        tr {
+            background-color: #F5DEA3;
+        }
+
+        tr:last-child{
+            background-color: #0b8d79;
+        }
+
+        .AddItem-button-container {
+            display: flex;
+            align-items: center; /* Center vertically within .logout-button-container */
+            justify-content: center; /* Center horizontally */
+            margin: 10px;
+        }
+
+        .Add-button{
+            color: black;
+            background-color: #F5DEA3;
+            text-align: center;
+            padding: 5px;
+        }
+
+        footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: white;
+            color: #02A8A8;
+        }
+
+        .display-btn {
+            display: flex; /* Use flexbox to display buttons in a row */
+            align-items: center; /* Center buttons vertically if needed */
+        }
+
+        .Add-button {
+            margin-right: 5px; /* Add a 5px margin between each button */
+            background-color: #42E6A4; /* Set the background color for the Add button */
+            color: white; /* Set text color to white */
+        }
+
+        .Reduce-button {
+            margin-right: 5px; /* Add a 5px margin between each button */
+            background-color: #F5DEA3; /* Set the background color for the Reduce button */
+            color: black; /* Set text color to black */
+        }
+
+        .remove-btn {
+            background-color: red; /* Set the background color for the Remove button */
+            color: white; /* Set text color to white */
+        }
+        
+        footer h5{
+            color: black;
+        }
+        .footer-content p {
+            margin: 0;
+            padding: 0;
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+    <nav class = wrap>
+        <div class = brand>{{ app }}</div>
+        <div class="logout-button-container" > 
+            <a href="{% url 'main:logout' %}">
+                <button class="logout-button">Logout</button>
+            </a>
+        </div>
+    </nav>
+    
+    <div class="content">
+        <h2>Login As :</h2>
+        <p>{{ name }}</p>
+        
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Date Added</th>
+                <td>Edit Item</td>
+            </tr>
+            
+            {% for item in items %}
+                <tr>
+                    <td>{{item.name}}</td>
+                    <td>{{item.price}}</td>
+                    <td>{{item.description}}</td>
+                    <td>{{item.amount}}</td>
+                    <td>{{item.date_added}}</td>
+                    <td>
+                        <div class="display-btn">
+                            <form method="POST" action="{% url 'main:add_amount' item.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="Add-button">+</button>
+                            </form>
+                            <form method="POST" action="{% url 'main:reduce_amount' item.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="Reduce-button">-</button>
+                            </form>
+                            <form method="POST" action="{% url 'main:delete_item' item.id %}" style="display: inline-block;">
+                                {% csrf_token %}
+                                <button type="submit" class="remove-btn">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <div class="AddItem-button-container">
+            <a href="{% url 'main:create_item' %}">
+                <button class="Add-button">
+                    Add New Item
+                </button>
+            </a>
+        </div> 
+        <h4>Kamu menyimpan {{ total_items }} {% if total_items == 1 %}jenis items{% else %}items{% endif %} pada aplikasi ini</h4>
+    
+        <br />
+           
+    </div>
+</body>
+<footer>
+    <h5>Sesi terakhir login: {{ last_login }}</h5>
+    <div class="footer-content">
+        <p>Pemograman Berbasis Platform - Tugas</p>
+        <p>Credit: {{creator}} - {{class}} - {{npm}}</p>
+    </div>
+</footer>
+
+{% endblock content %}
+
+```
+##**Create_Item**
+```html
+{% extends 'base.html' %} 
+
+{% block content %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>register</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+    <style> 
+        .wrap{
+            display: flex;
+            justify-content: space-between;
+            font-size: 20px;
+            width: 100%;
+            height: 60px;
+            box-shadow: 0 7px 15px 0 rgba(10, 0, 0, 0.692);
+        }
+        .brand{
+            display: flex;
+            flex-direction: row;
+            font-size: 40px;
+            padding: 5px;
+            color: rgb(18, 135, 119);   
+        }
+        h1{
+            text-align: center;
+            padding: 10px 0 10px 0;
+            color: #02A8A8;
+        }
+        .create-item-container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: left;
+            flex-direction: column;
+            padding: 20px;
+            margin-top: 5px;
+        }
+        input, textarea {
+            width: 300px;
+            height: 20px;
+            margin: 10px;
+            border-radius: 5px;
+            border: 1px solid black;
+            padding: 7px;
+            color: black;
+        }
+
+        textarea:last-child {
+            width: 300px;
+            height: 150px;
+            margin: 10px;
+            border-radius: 5px;
+            border: 1px solid black;
+            padding: 7px;
+        }
+        input[type=submit] {
+            width: 300px;
+            height: 40px;
+            background-color: #02A8A8;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class = wrap>
+        <div class = brand>Ndata</div>
+        <div class="logout-button-container" > 
+
+        </div>
+        </nav>
+    <div class="create-item-container">
+        <div class="create-item">
+            <h1>Add New Item</h1>
+
+            <form method="POST">
+                {% csrf_token %}
+                <table>
+                    {{ form.as_table }}
+                    <tr>
+                        <td></td>
+                        <td>
+                            <input type="submit" value="Add Item"/>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        
+    </div>   
+
+</body>
+
+
+{% endblock %}
+```
+
+## Manfaat dari setiap element selector dan waktu yang tepat untuk menggunakannya
+### **Universal Selector (*)**
+Manfaatnya adalah untuk memilih semua elemen pada halaman tersebut. Ketika kita ingin menerapkan sebuah _style_ ke semua elemen, misalnya untuk mereset margin atau padding, selector inilah yang tepat untuk dipilih supaya lebih rapi kode css kita.
+
+### **Element Selector (contoh : p, h1, div)**
+Dengan menggunakan Element Selector, kita dapat menetapkan gaya dasar untuk seluruh elemen dari tipe yang sama di seluruh situs web atau halaman. Misalnya, menggunakan selector p bisa menentukan gaya untuk semua elemen paragraf
+
+### **ID Selector (#)**
+ID Selector memungkinkan kita untuk menargetkan elemen berdasarkan atribut id-nya. Keunggulan utama dari ID Selector adalah spesifikitasnya karena setiap ID harus unik dalam halaman. Ini memastikan bahwa style yang diterapkan melalui ID Selector hanya akan diterapkan pada satu elemen spesifik. Ini sangat berguna untuk komponen yang unik dalam halaman, seperti navigasi utama atau header.
+
+### **Class Selector (.)**
+Selector ini memungkinkan kita untuk menargetkan satu atau lebih elemen berdasarkan atribut class-nya. Keuntungan dari Class Selector adalah fleksibilitas dan keterulangan. Kita dapat menerapkan class yang sama ke banyak elemen di seluruh halaman atau situs web, memungkinkan pengembang dengan mudah memberikan style konsisten ke sekelompok elemen. Selector ini sangat berguna untuk komponen yang muncul berulang kali atau memiliki variasi, seperti tombol, kotak teks, atau item daftar.
+
+## Jelaskan HTML5 Tag yang kamu ketahui
+### **`<header>`**
+Tag ini menandai bagian atas atau pembuka dari sebuah halaman atau bagian dari halaman. Ini biasanya berisi elemen seperti logo, judul situs, dan navigasi utama.
+
+### **`<nav>`**
+Ini digunakan untuk menandai bagian navigasi dari sebuah halaman, biasanya berisi tautan menuju bagian lain dari situs atau aplikasi web.
+
+### **`<main>`**
+Menandai konten utama dari halaman, yang unik dan tidak berulang di berbagai halaman situs.
+
+### **`<article>`**
+Digunakan untuk konten yang dapat berdiri sendiri dalam dokumen, seperti postingan blog, berita, atau artikel ilmiah. Konten di dalam `<article>` harus membuat sense meskipun ditempatkan di luar situs.
+
+### **`<section>`**
+Mewakili bagian yang berdiri sendiri dalam konteks, sering digunakan untuk membagi bagian-bagian besar konten atau layout.
+
+### **`<footer>`**
+Digunakan untuk menandai bagian bawah halaman atau bagian dari halaman. Ini biasanya berisi informasi seperti hak cipta, tautan tambahan, atau kontak.
+
+## Perbedaan antara margin dan padding
+Margin dan padding adalah dua properti penting dalam CSS yang mengatur ruang sekitar elemen. Keduanya, meskipun serupa dalam fungsi, memiliki perbedaan kunci dalam aplikasinya. Margin merujuk pada ruang di luar batas elemen, berfungsi sebagai buffer antara elemen dan elemen lain di sekitarnya. Ini tidak mewarisi warna latar belakang dari elemen dan selalu transparan. Selain itu, margin memiliki sifat khusus yang disebut "margin collapsing", di mana margin vertikal dari dua elemen yang berdekatan dapat bertabrakan atau menumpuk. Sebaliknya, padding adalah ruang di antara konten elemen dan batasnya. Berbeda dengan margin, padding mewarisi warna latar belakang dari elemen, memberikan kesan bahwa elemen itu sendiri lebih besar atau lebih luas. Padding tidak bertabrakan seperti margin, sehingga ruang yang ditentukan selalu konsisten. Selanjutnya, ketika menyangkut ukuran total elemen, padding dapat mempengaruhi dimensinya, tergantung pada model kotak yang digunakan. Secara keseluruhan, meskipun margin dan padding keduanya mengatur ruang, mereka beroperasi pada area yang berbeda dari elemen dan memiliki karakteristik unik mereka sendiri.
+
+## Perbedaan antara framework CSS Tailwind dan Bootstrap dan kapan sebaiknya kita menggunakan Bootstrap daripada Tailwind, dan sebaliknya?
+Dikenal sebagai framework berbasis komponen, Bootstrap menyediakan serangkaian komponen desain yang telah ditentukan, seperti tombol, kartu, dan navbar, yang dapat dengan mudah disesuaikan dan diintegrasikan ke dalam situs web. Ini memungkinkan pengembangan yang cepat dan konsisten, terutama bagi mereka yang ingin prototipe atau membangun situs web tanpa harus mendesain setiap komponen dari awal. Jika ingin mencari solusi cepat dengan komponen yang siap pakai dan desain yang telah teruji, Bootstrap mungkin adalah pilihan yang tepat. Ini terutama berlaku jika kita kurang familiar dengan desain atau CSS, atau jika ingin membangun aplikasi besar dengan tim yang memerlukan konsistensi desain.
+
+Sebaliknya, Tailwind mengambil pendekatan utilitas-pertama. Alih-alih menyediakan komponen yang telah ditentukan, Tailwind memberi pengembang serangkaian kelas utilitas yang memungkinkan mereka untuk membangun desain kustom dengan cepat langsung di markup. Ini memberikan kebebasan lebih dalam mendesain antarmuka, tetapi juga memerlukan pemahaman yang lebih mendalam tentang desain dan CSS. Jika kita ingin kontrol lebih besar atas estetika situs kita dan tidak keberatan untuk mencari lebih dalam mengenai desain, Tailwind mungkin lebih sesuai. Tailwind cocok bagi mereka yang ingin situs web atau aplikasi mereka memiliki tampilan yang benar-benar unik, atau bagi pengembang yang menghargai pendekatan utilitas-pertama.
