@@ -1,7 +1,15 @@
-<!DOCTYPE HTML>
 {% extends 'base.html' %}
-{% block meta %}
+
+
+{% block content %}
+<!DOCTYPE HTML>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Ndata</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
     <style>
         *{
             font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -9,7 +17,7 @@
         }
         .wrap{
             display: flex;
-            justify-content: start;
+            justify-content: space-between;
             font-size: 20px;
             width: 100%;
             height: 60px;
@@ -23,66 +31,186 @@
             color: rgb(18, 135, 119);   
         }
         h2{
-            color:#a50808;
+            color:#02A8A8;
             text-align: left;
-            font-size: 15px;
+            font-size: 25px;
             margin-top: 10px;
             box-shadow: rgb;
         }
-    </style>
-{% endblock meta %}
-{% block content %}
+        h4{
+            text-align: center;
+            font-size: 20px;
+        }
+        h5{
+            color:#02A8A8;
+            text-align: center;
+            font-size: 15px;
+        }
+        .logout-button-container {
+            display: flex;
+            align-items: center; /* Center vertically within .logout-button-container */
+            margin-right: 5px;
+        }
 
+        .logout-button {
+            color: white;
+            background-color: #a50808;
+            text-align: center;
+            padding: 5px;
+            /* Add any other styles you want for the Logout button */
+        }
+
+        .logout-button:hover {
+            background-color: #870606; /* Change the background color on hover */
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            border: 1px solid #000;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+        }
+
+        tr:first-child {
+            background-color: #F5DEA3;
+        }
+
+        tr {
+            background-color: #F5DEA3;
+        }
+
+        tr:last-child{
+            background-color: #0b8d79;
+        }
+
+        .AddItem-button-container {
+            display: flex;
+            align-items: center; /* Center vertically within .logout-button-container */
+            justify-content: center; /* Center horizontally */
+            margin: 10px;
+        }
+
+        .Add-button{
+            color: black;
+            background-color: #F5DEA3;
+            text-align: center;
+            padding: 5px;
+        }
+
+        footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: white;
+            color: #02A8A8;
+        }
+
+        .display-btn {
+            display: flex; /* Use flexbox to display buttons in a row */
+            align-items: center; /* Center buttons vertically if needed */
+        }
+
+        .Add-button {
+            margin-right: 5px; /* Add a 5px margin between each button */
+            background-color: #42E6A4; /* Set the background color for the Add button */
+            color: white; /* Set text color to white */
+        }
+
+        .Reduce-button {
+            margin-right: 5px; /* Add a 5px margin between each button */
+            background-color: #F5DEA3; /* Set the background color for the Reduce button */
+            color: black; /* Set text color to black */
+        }
+
+        .remove-btn {
+            background-color: red; /* Set the background color for the Remove button */
+            color: white; /* Set text color to white */
+        }
+        
+        footer h5{
+            color: black;
+        }
+        .footer-content p {
+            margin: 0;
+            padding: 0;
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
     <nav class = wrap>
         <div class = brand>{{ app }}</div>
+        <div class="logout-button-container" > 
+            <a href="{% url 'main:logout' %}">
+                <button class="logout-button">Logout</button>
+            </a>
+        </div>
     </nav>
     
-    <h2>Name :</h2>
-    <p>{{ name }} - {{ npm }}</p>
-    
-    <h2>Class : </h2>
-    <p>{{ class }} </p>
-
-
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Description</th>
-            <th>Amount</th>
-            <th>Date Added</th>
-        </tr>
-    
-        {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
-    
-        {% for item in items %}
+    <div class="content">
+        <h2>Login As :</h2>
+        <p>{{ name }}</p>
+        
+        <table>
             <tr>
-                <td>{{item.name}}</td>
-                <td>{{item.price}}</td>
-                <td>{{item.description}}</td>
-                <td>{{item.amount}}</td>
-                <td>{{item.date_added}}</td>
-            </tr>   
-        {% endfor %}
-    </table>
-
-    <h3>Kamu menyimpan {{ total_items }} {% if total_items == 1 %}jenis items{% else %}items{% endif %} pada aplikasi ini</h3>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Date Added</th>
+                <td>Edit Item</td>
+            </tr>
+            
+            {% for item in items %}
+                <tr>
+                    <td>{{item.name}}</td>
+                    <td>{{item.price}}</td>
+                    <td>{{item.description}}</td>
+                    <td>{{item.amount}}</td>
+                    <td>{{item.date_added}}</td>
+                    <td>
+                        <div class="display-btn">
+                            <form method="POST" action="{% url 'main:add_amount' item.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="Add-button">+</button>
+                            </form>
+                            <form method="POST" action="{% url 'main:reduce_amount' item.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="Reduce-button">-</button>
+                            </form>
+                            <form method="POST" action="{% url 'main:delete_item' item.id %}" style="display: inline-block;">
+                                {% csrf_token %}
+                                <button type="submit" class="remove-btn">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <div class="AddItem-button-container">
+            <a href="{% url 'main:create_item' %}">
+                <button class="Add-button">
+                    Add New Item
+                </button>
+            </a>
+        </div> 
+        <h4>Kamu menyimpan {{ total_items }} {% if total_items == 1 %}jenis items{% else %}items{% endif %} pada aplikasi ini</h4>
     
-    <br />
-
+        <br />
+           
+    </div>
+</body>
+<footer>
     <h5>Sesi terakhir login: {{ last_login }}</h5>
-    
-    <a href="{% url 'main:create_item' %}">
-        <button>
-            Add New Item
-        </button>
-    </a>
-
-    <a href="{% url 'main:logout' %}">
-        <button>
-            Logout
-        </button>
-    </a>
-    
+    <div class="footer-content">
+        <p>Pemograman Berbasis Platform - Tugas</p>
+        <p>Credit: {{creator}} - {{class}} - {{npm}}</p>
+    </div>
+</footer>
 
 {% endblock content %}

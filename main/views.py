@@ -1,5 +1,5 @@
 import datetime
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from main.forms import ItemForm, Item
 from django.urls import reverse
@@ -17,6 +17,7 @@ def show_main(request):
 
     context = {
         'name': request.user.username,
+        'creator' : 'Muhammad Pendar Bintang Kasdiono',
         'class': 'PBP E',
         "app" : "Ndata",
         'npm' : '2206083174',
@@ -79,7 +80,7 @@ def login_user(request):
             return response
         else:
             messages.info(request, 'Sorry, incorrect username or password. Please try again.')
-    context = {}
+    context = {"app" : "Ndata",}
     return render(request, 'login.html', context)
 
 def logout_user(request):
@@ -88,3 +89,28 @@ def logout_user(request):
     response.delete_cookie('last_login')
     return response
     
+def add_amount(request, item_id):
+    item = get_object_or_404(Item, pk=item_id) #Mengakses item yang ingin dimodifikasi
+    item.user = request.user; 
+    if item.amount > 0:
+        item.amount += 1
+        item.save()
+    return redirect('main:show_main')
+
+def reduce_amount(request, item_id):
+    item = get_object_or_404(Item, pk=item_id)
+    item.user = request.user
+    if item.amount > 1:
+        item.amount -= 1
+        item.save()
+    else:
+        item.delete()
+    return redirect('main:show_main')
+
+def delete_item(request, id):
+    # Get data berdasarkan ID
+    item = Item.objects.get(pk = id)
+    # Hapus data
+    item.delete()
+    # Kembali ke halaman awal
+    return HttpResponseRedirect(reverse('main:show_main'))

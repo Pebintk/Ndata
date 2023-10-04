@@ -1,45 +1,110 @@
 {% extends 'base.html' %}
-
-{% block meta %}
-    <title>Login</title>
-{% endblock meta %}
+    
 
 {% block content %}
+<!DOCTYPE HTML>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Login</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+    <style>
+        *{
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            background-color: rgba(250, 249, 249, 0.692);
+        }
+        .wrap {
+            display: flex;
+            justify-content: space-between;
+            font-size: 20px;
+            width: 100%;
+            height: 60px;
+            box-shadow: 0 7px 15px 0 rgba(10, 0, 0, 0.692);
+        }
+        .brand {
+            display: flex;
+            flex-direction: row;
+            font-size: 40px;
+            padding: 5px;
+            color: rgb(18, 135, 119);   
+        }
+        .login-container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        h1{
+            text-align: center;
+            padding: 10px 0 10px 0;
+            color: #02A8A8;
+        }
 
-<div class = "login">
+        table, ul{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-    <h1>Login</h1>
+        .btn-login-btn{
+            text-align: center;
+            color: white;
+            background-color: #02A8A8;
+            padding: 5px;
+            margin: 10px 0 10px 35px;
 
-    <form method="POST" action="">
-        {% csrf_token %}
-        <table>
-            <tr>
-                <td>Username: </td>
-                <td><input type="text" name="username" placeholder="Username" class="form-control"></td>
-            </tr>
-                    
-            <tr>
-                <td>Password: </td>
-                <td><input type="password" name="password" placeholder="Password" class="form-control"></td>
-            </tr>
+        }
 
-            <tr>
-                <td></td>
-                <td><input class="btn login_btn" type="submit" value="Login"></td>
-            </tr>
-        </table>
-    </form>
+        .redirect-login{
+            text-align: center;
+        }
+        /* Existing styles for other elements... */
 
-    {% if messages %}
-        <ul>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}     
+    </style>
+</head>
+<body>
+    <nav class="wrap">
+        <div class="brand">{{ app }}</div>
+
+    </nav>
+
+    <div class="login-container">
+        <div class = "login">
+            <h1>Login</h1>
+            <form method="POST" action="">
+                {% csrf_token %}
+                <table>
+                    <tr>
+                        <td>Username: </td>
+                        <td><input type="text" name="username" placeholder="Username" class="form-control"></td>
+                    </tr>
+                            
+                    <tr>
+                        <td>Password: </td>
+                        <td><input type="password" name="password" placeholder="Password" class="form-control"></td>
+                    </tr>
         
-    Don't have an account yet? <a href="{% url 'main:register' %}">Register Now</a>
-
-</div>
-
-{% endblock content %}
+                    <tr>
+                        <td></td>
+                        <td><input class="btn-login-btn" type="submit" value="Login"></td>
+                    </tr>
+                </table>
+            </form>
+        
+            {% if messages %}
+                <ul style="color: red;">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}     
+                
+            <p class="redirect-login">Don't have an account yet? <a href="{% url 'main:register' %}">Register Now</a></p>
+        
+        </div>
+    </div>
+    
+    
+    {% endblock content %}
+</body>
