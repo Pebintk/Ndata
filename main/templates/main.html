@@ -13,7 +13,6 @@
     <style>
         *{
             font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-            background-color: rgba(250, 249, 249, 0.692);
         }
         .wrap{
             display: flex;
@@ -35,7 +34,7 @@
             text-align: left;
             font-size: 25px;
             margin-top: 10px;
-            box-shadow: rgb;
+            
         }
         h4{
             text-align: center;
@@ -84,7 +83,7 @@
         }
 
         tr:last-child{
-            background-color: #0b8d79;
+            background-color: #02A8A8;
         }
 
         .AddItem-button-container {
@@ -113,21 +112,23 @@
         .display-btn {
             display: flex; /* Use flexbox to display buttons in a row */
             align-items: center; /* Center buttons vertically if needed */
+            margin-right: 10px ;
         }
 
         .Add-button {
-            margin-right: 5px; /* Add a 5px margin between each button */
+            margin-right: 10px; /* Add a 5px margin between each button */
             background-color: #42E6A4; /* Set the background color for the Add button */
             color: white; /* Set text color to white */
         }
 
-        .Reduce-button {
-            margin-right: 5px; /* Add a 5px margin between each button */
-            background-color: #F5DEA3; /* Set the background color for the Reduce button */
+        .minus-btn, .plus-btn {
+            margin-right: 10px; /* Add a 5px margin between each button */
+            background-color: #42E6A4; /* Set the background color for the minus button */
             color: black; /* Set text color to black */
         }
 
         .remove-btn {
+            margin-right: 10px; /* Add a 5px margin between each button */
             background-color: red; /* Set the background color for the Remove button */
             color: white; /* Set text color to white */
         }
@@ -200,7 +201,7 @@
                     Add New Item
                 </button>
             </a>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Add Item by AJAX</button>
+            <button type="button" class="Add-button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Add Item by AJAX</button>
         </div> 
         <h4 id="itemCount"></h4>
         <br />
