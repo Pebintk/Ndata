@@ -156,51 +156,53 @@
         <h2>Login As :</h2>
         <p>{{ name }}</p>
         
-        <table>
-            <tr>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Description</th>
-                <th>Amount</th>
-                <th>Date Added</th>
-                <td>Edit Item</td>
-            </tr>
-            
-            {% for item in items %}
-                <tr>
-                    <td>{{item.name}}</td>
-                    <td>{{item.price}}</td>
-                    <td>{{item.description}}</td>
-                    <td>{{item.amount}}</td>
-                    <td>{{item.date_added}}</td>
-                    <td>
-                        <div class="display-btn">
-                            <form method="POST" action="{% url 'main:add_amount' item.id %}">
-                                {% csrf_token %}
-                                <button type="submit" class="Add-button">+</button>
-                            </form>
-                            <form method="POST" action="{% url 'main:reduce_amount' item.id %}">
-                                {% csrf_token %}
-                                <button type="submit" class="Reduce-button">-</button>
-                            </form>
-                            <form method="POST" action="{% url 'main:delete_item' item.id %}" style="display: inline-block;">
-                                {% csrf_token %}
-                                <button type="submit" class="remove-btn">Delete</button>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
+        <table id="item_table"></table>
+
+        <div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Add New Item</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="form" onsubmit="return false;">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="name" class="col-form-label">Name:</label>
+                                <input type="text" class="form-control" id="name" name="name"></input>
+                            </div>
+                            <div class="mb-3">
+                                <label for="price" class="col-form-label">Price:</label>
+                                <input type="number" class="form-control" id="price" name="price"></input>
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="col-form-label">Description:</label>
+                                <textarea class="form-control" id="description" name="description"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="amount" class="col-form-label">amount:</label>
+                                <input type="number" class="form-control" id="amount" name="amount"></input>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="button_add" data-bs-dismiss="modal">Add Item</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <div class="AddItem-button-container">
             <a href="{% url 'main:create_item' %}">
                 <button class="Add-button">
                     Add New Item
                 </button>
             </a>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Add Item by AJAX</button>
         </div> 
-        <h4>Kamu menyimpan {{ total_items }} {% if total_items == 1 %}jenis items{% else %}items{% endif %} pada aplikasi ini</h4>
-    
+        <h4 id="itemCount"></h4>
         <br />
            
     </div>
@@ -213,4 +215,93 @@
     </div>
 </footer>
 
+<script>
+    async function getItems() {
+        return fetch("{% url 'main:get_item_json' %}").then((res) => res.json())
+    }
+    
+    async function refreshItems() {
+         document.getElementById("item_table").innerHTML = ""
+        const items = await getItems()
+        const itemCountElement = document.getElementById("itemCount");
+        const total_items = items.length; 
+        itemCountElement.innerHTML = `Kamu menyimpan ${total_items} ${total_items === 1 ? 'item' : 'items'} pada aplikasi ini`;
+        let htmlString =`
+        <tr style="text-align: center;">
+            <th>Name</th>
+            <th>amount</th>
+            <th>description</th>
+            <th>price</th>
+            <th>Edit Item</th>
+            
+        </tr>
+        `
+        items.forEach((item) => {
+            htmlString += `
+            <tr>
+                <td>${item.fields.name}</td>
+                <td>${item.fields.amount}</td>
+                <td>${item.fields.description}</td>
+                <td>${item.fields.price}</td>
+                <td>
+                    <div class="display-btn">
+                        <a>
+                            <button type="submit" class="minus-btn" onclick="reduceAmount(${item.pk})">-</button>
+                        </a>
+                        <a>
+                            <button type="submit" class="plus-btn" onclick="addAmount(${item.pk})">+</button>
+                        </a>
+                        <a>
+                            <button type="submit" class="remove-btn" onclick="deleteItem(${item.pk})">🗑</button>
+                        </a>                                   
+                    </div>
+                </td>
+            </tr>
+`        })
+        
+        document.getElementById("item_table").innerHTML = htmlString
+    }
+
+    refreshItems()
+
+    function addItem() {
+        fetch("{% url 'main:add_item_ajax' %}", {
+            method: "POST",
+            body: new FormData(document.querySelector('#form'))
+        }).then(refreshItems)
+
+        document.getElementById("form").reset()
+        return false
+    }
+
+    function addAmount(item_id) {
+        fetch(`add_amount/${item_id}/`, {
+            method: "POST",
+        }).then(refreshItems)
+        return false
+    }
+
+    function reduceAmount(item_id) {
+        fetch(`reduce_amount/${item_id}/`, {
+            method: "POST",
+        }).then(refreshItems)
+        return false
+    }
+
+    function deleteItem(item_id) {
+        fetch(`delete_item/${item_id}/`, {
+            method: "DELETE",
+        }).then(refreshItems)
+        return false
+    }
+
+    document.getElementById("button_add").onclick = addItem
+
+    const myModal = new bootstrap.Modal(document.getElementById("staticBackdrop"));
+
+    myModal._element.addEventListener('hidden.bs.modal', () => {
+    // Clear the form fields by resetting the form
+    document.getElementById("form").reset();
+    });
+</script>
 {% endblock content %}
