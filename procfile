@@ -1,2 +1,2 @@
 release: django-admin migrate --noinput
-web: gunicorn Ndata.wsgi
+web: gunicorn ndata.wsgi
