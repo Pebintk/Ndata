@@ -222,7 +222,7 @@
     }
     
     async function refreshItems() {
-         document.getElementById("item_table").innerHTML = ""
+        document.getElementById("item_table").innerHTML = ""
         const items = await getItems()
         const itemCountElement = document.getElementById("itemCount");
         const total_items = items.length; 

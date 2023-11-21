@@ -1,8 +1,8 @@
 from django.contrib import admin
-from main.models import Item
-# Register your models here.
-@admin.register(Item)
 
-class Item(admin.ModelAdmin):
-    list_display = ('name', 'description', 'price', 'amount')
-    list_filter = ('description'),
+# Register your models here.
+
+
+class ForumAdmin(admin.ModelAdmin):
+    list_display = ('user', 'BookName', 'forumsDescription', 'dateOfPosting')
+
